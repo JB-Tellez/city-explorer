@@ -33,7 +33,12 @@ export default function App() {
     <>
       <input onChange={updateQuery} />
       <button onClick={fetchLocation}>Explore!</button>
-      <h2>The city is: {location.display_name}</h2>
+      {location.display_name && 
+        <>
+          <h2>The city is: {location.display_name}</h2>
+          <h3>Coordinates are: {location.lat}, {location.lon}</h3>
+        </>
+      }
       <img src={mapUrl} alt={location.display_name && `"Image of selected location ${location.display_name}"`} />
       {errorMessage && <h2>Oh noes: {errorMessage}</h2>}
     </>
