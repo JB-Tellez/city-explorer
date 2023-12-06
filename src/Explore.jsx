@@ -31,28 +31,30 @@ function Explore() {
   const displayLocation = async () => {
     const url = `https://us1.locationiq.com/v1/search.php?key=${API_KEY}&q=${searchQuery}&format=json`;
 
-    let location;
     try {
-      location = await axios.get(url);
+      const locationResponse = await axios.get(url);
+      const locationObj = locationResponse.data[0];
 
-      setLocation(location.data[0].display_name);
-      setLatitude(location.data[0].lat);
-      setLongitude(location.data[0].lon);
+      setLocation(locationObj.display_name);
+      setLatitude(locationObj.lat);
+      setLongitude(locationObj.lon);
       setDisplayMap(true);
       setDisplayError(false);
+      displayWeather(locationObj.lat, locationObj.lon);
+
     } catch (error) {
+
       setDisplayMap(false);
       setDisplayError(true);
       setErrorMessage(error.response.status + ': ' + error.response.data.error);
     }
 
-    displayWeather(location.data[0].lat, location.data[0].lon);
   };
 
   const displayWeather = async (lat, lon) => {
     try {
-      const weather = await axios.get(`${SERVER_URL}/weather`, { params: { lat, lon, searchQuery: searchQuery } });
-      setWeather(weather.data);
+      const weatherResponse = await axios.get(`${SERVER_URL}/weather`, { params: { lat, lon, searchQuery: searchQuery } });
+      setWeather(weatherResponse.data);
     } catch (error) {
       setDisplayMap(false);
       setDisplayError(true);
