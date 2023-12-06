@@ -51,7 +51,7 @@ function Explore() {
 
   const displayWeather = async (lat, lon) => {
     try {
-      const weather = await axios.get(`${SERVER_URL}/weather`, { params: { latitude: lat, longitude: lon, searchQuery: searchQuery } });
+      const weather = await axios.get(`${SERVER_URL}/weather`, { params: { lat, lon, searchQuery: searchQuery } });
       setWeather(weather.data);
     } catch (error) {
       setDisplayMap(false);
